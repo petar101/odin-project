@@ -1,0 +1,2 @@
+puts 'Event Manager Initialized!'
+
