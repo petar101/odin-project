@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'erb'
 
 class LetterGenerator
@@ -15,4 +17,4 @@ class LetterGenerator
     # Generate the letter using ERB
     @template.result(binding)
   end
-end 
+end
