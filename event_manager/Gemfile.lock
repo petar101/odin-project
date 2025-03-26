@@ -62,7 +62,6 @@ GEM
 
 PLATFORMS
   arm64-darwin-24
-  ruby
 
 DEPENDENCIES
   google-apis-civicinfo_v2 (~> 0.25.0)
