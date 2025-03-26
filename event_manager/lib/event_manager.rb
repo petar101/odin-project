@@ -3,11 +3,27 @@
 require 'csv'
 require 'google/apis/civicinfo_v2'
 require_relative 'letter_generator'
+require 'date'
+require_relative 'popular_times'
 
 # This method cleans up zipcode data to ensure it's 5 digits
 def clean_zipcode(zipcode)
   # Convert to string, pad with zeros if needed, and take first 5 digits
   zipcode.to_s.rjust(5, '0')[0..4]
+end
+
+def clean_phone_number(phone)
+  # Remove any non-digit characters and convert to string
+  phone = phone.to_s.gsub(/\D/, '')
+  
+  case phone.length
+  when 10
+    phone  # Good number, return as is
+  when 11
+    phone[0] == '1' ? phone[1..-1] : 'Bad number: 11 digits not starting with 1'
+  else
+    'Bad number: incorrect number of digits'
+  end
 end
 
 # This method takes a zipcode and returns the legislators for that area
@@ -52,11 +68,16 @@ letter_generator = LetterGenerator.new('form_letter.erb')
   header_converters: :symbol
 )
 
+
+puts "Most popular registration hour: #{@popular_times}:00"
 # Process each row in the CSV file
 @contents.each do |row|
+ 
   # Get the ID and name from the row
   id = row[0] # Get the actual ID from the row
   name = row[:first_name]
+  phone = clean_phone_number(row[:homephone])
+  puts "#{name} #{phone}"
 
   # Get and clean the zipcode from the row
   zipcode = clean_zipcode(row[:zipcode])
@@ -65,7 +86,9 @@ letter_generator = LetterGenerator.new('form_letter.erb')
   legislators = legislators_by_zipcode(zipcode)
 
   # Generate the personalized letter
+
   personal_letter = letter_generator.generate_letter(name, legislators)
 
   save_thank_you_letter(id, personal_letter)
 end
+
