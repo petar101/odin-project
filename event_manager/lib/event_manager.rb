@@ -15,12 +15,12 @@ end
 def clean_phone_number(phone)
   # Remove any non-digit characters and convert to string
   phone = phone.to_s.gsub(/\D/, '')
-  
+
   case phone.length
   when 10
-    phone  # Good number, return as is
+    phone # Good number, return as is
   when 11
-    phone[0] == '1' ? phone[1..-1] : 'Bad number: 11 digits not starting with 1'
+    phone[0] == '1' ? phone[1..] : 'Bad number: 11 digits not starting with 1'
   else
     'Bad number: incorrect number of digits'
   end
@@ -68,11 +68,9 @@ letter_generator = LetterGenerator.new('form_letter.erb')
   header_converters: :symbol
 )
 
-
 puts "Most popular registration hour: #{@popular_times}:00"
 # Process each row in the CSV file
 @contents.each do |row|
- 
   # Get the ID and name from the row
   id = row[0] # Get the actual ID from the row
   name = row[:first_name]
@@ -91,4 +89,3 @@ puts "Most popular registration hour: #{@popular_times}:00"
 
   save_thank_you_letter(id, personal_letter)
 end
-

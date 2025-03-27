@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 def bubble_sort(numbers)
   length = numbers.length
-  
+
   # Outer loop: run the process for (length - 1) passes
   (length - 1).times do
     # Inner loop: iterate through indices 0 to length - 2
@@ -12,8 +14,8 @@ def bubble_sort(numbers)
       end
     end
   end
-  
-  numbers  # Return the sorted array
+
+  numbers # Return the sorted array
 end
 
 # Input: a line of numbers separated by spaces
@@ -21,6 +23,5 @@ numbers = gets.chomp.split.map(&:to_i)
 
 sorted_numbers = bubble_sort(numbers)
 puts "Sorted: #{sorted_numbers.inspect}"
-
 
 # Delete testing Git

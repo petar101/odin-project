@@ -1,0 +1,28 @@
+--- !ruby/object:Game
+wrong_letters:
+- a
+- o
+- u
+- b
+- f
+- r
+victory: false
+wrong_guess: 7
+answer:
+- l
+- i
+- c
+- e
+- "n"
+- s
+- e
+- d
+secret:
+- l
+- i
+- _
+- e
+- _
+- s
+- e
+- _
