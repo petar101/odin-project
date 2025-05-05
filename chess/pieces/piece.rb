@@ -1,6 +1,6 @@
-  # encoding: utf-8
+# frozen_string_literal: true
 
-class Piece 
+class Piece
   attr_accessor :row, :col, :color
 
   def initialize(row, col, color)
@@ -16,5 +16,4 @@ class Piece
   def on_board?(row, col)
     row.between?(0, 7) && col.between?(0, 7)
   end
-
 end
