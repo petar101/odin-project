@@ -10,17 +10,16 @@ require_relative 'pieces/bishop'
 require_relative 'pieces/knight'
 require_relative 'check_rules'
 
-
-
 class Game
   attr_reader :player1, :player2, :current_player
+
   include CheckRules
 
   def initialize
     @board = Board.new
     initialize_pieces
-    @player1 = Player.new(:white, "Player 1")
-    @player2 = Player.new(:black, "Player 2")
+    @player1 = Player.new(:white, 'Player 1')
+    @player2 = Player.new(:black, 'Player 2')
     @current_player = @player1
   end
 
@@ -37,7 +36,7 @@ class Game
 
     @board.grid[7][4] = King.new(7, 4, :white) # e1
     @board.grid[0][4] = King.new(0, 4, :black) # e8
-    
+
     @board.grid[7][3] = Queen.new(7, 3, :white) # d1
     @board.grid[0][3] = Queen.new(0, 3, :black) # d8
 
@@ -96,47 +95,46 @@ class Game
     input = gets.chomp
     from, to = input.split
     return :invalid unless from && to
-  
+
     from_row, from_col = algebraic_to_coords(from)
     to_row, to_col     = algebraic_to_coords(to)
-  
+
     piece = @board.grid[from_row][from_col]
-  
+
     if piece.nil?
       puts "No piece at #{from}."
       return :invalid
     end
-  
+
     if piece.color != @current_player.color
       puts "That piece doesn't belong to you."
       return :invalid
     end
-  
+
     unless piece.move(@board.grid).include?([to_row, to_col])
-      puts "Invalid move for that piece."
+      puts 'Invalid move for that piece.'
       return :invalid
     end
-  
+
     # Move is valid — apply it
     @board.grid[to_row][to_col] = piece
     @board.grid[from_row][from_col] = nil
-    piece.row, piece.col = to_row, to_col
+    piece.row = to_row
+    piece.col = to_col
     :success
   end
-  
+
   def play
     puts 'Welcome to Chess!'
     puts "Here's the initial board setup:"
     @board.display
-    
+
     until victory?
       puts "\nCurrent board:"
       @board.display
-  
+
       result = :invalid
-      until result == :success
-        result = parse_input
-      end
+      result = parse_input until result == :success
       switch_player
     end
   end

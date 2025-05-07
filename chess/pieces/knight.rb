@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'piece'
 
 class Knight < Piece
@@ -21,19 +22,17 @@ class Knight < Piece
 
   def move(board)
     moves = []
-  
+
     direction.each do |dr, dc|
       new_row = @row + dr
       new_col = @col + dc
-      
+
       next unless on_board?(new_row, new_col)
-      
+
       target = board[new_row][new_col]
-      if target.nil? || target.color != self.color
-        moves << [new_row, new_col]
-      end
+      moves << [new_row, new_col] if target.nil? || target.color != color
     end
-  
+
     moves
   end
 end
