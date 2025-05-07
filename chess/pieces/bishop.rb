@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 require_relative 'piece'
 
-class Queen < Piece
+class Bishop < Piece
   def symbol
-    color == :white ? '♕' : '♛'
+    color == :white ? '♗' : '♝'
   end
 
   def direction
     [
-      [-1, -1], [-1, 0], [-1, 1],  # up-left, up, up-right
-      [ 0, -1],          [ 0, 1],  # left, right
-      [ 1, -1], [ 1, 0], [ 1, 1]   # down-left, down, down-right
+      [-1, -1], # up-left
+      [-1, 1],  # up-right
+      [ 1, -1], # down-left
+      [ 1, 1]   # down-right
     ]
   end
 

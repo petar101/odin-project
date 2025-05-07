@@ -3,7 +3,7 @@ require_relative 'piece'
 
 class Pawn < Piece
   def symbol
-    color == :white ? '♟' : '♙'
+    color == :white ? '♙' : '♟'
   end
 
   def direction

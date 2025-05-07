@@ -3,9 +3,18 @@
 require_relative 'board'
 require_relative 'pieces/pawn'
 require_relative 'player'
+require_relative 'pieces/king'
+require_relative 'pieces/queen'
+require_relative 'pieces/rook'
+require_relative 'pieces/bishop'
+require_relative 'pieces/knight'
+require_relative 'check_rules'
+
+
 
 class Game
   attr_reader :player1, :player2, :current_player
+  include CheckRules
 
   def initialize
     @board = Board.new
@@ -25,14 +34,55 @@ class Game
     8.times do |col|
       @board.grid[1][col] = Pawn.new(1, col, :black)
     end
+
+    @board.grid[7][4] = King.new(7, 4, :white) # e1
+    @board.grid[0][4] = King.new(0, 4, :black) # e8
+    
+    @board.grid[7][3] = Queen.new(7, 3, :white) # d1
+    @board.grid[0][3] = Queen.new(0, 3, :black) # d8
+
+    # White rooks
+    @board.grid[7][0] = Rook.new(7, 0, :white) # a1
+    @board.grid[7][7] = Rook.new(7, 7, :white) # h1
+
+    # Black rooks
+    @board.grid[0][0] = Rook.new(0, 0, :black) # a8
+    @board.grid[0][7] = Rook.new(0, 7, :black) # h8
+
+    # White knights
+    @board.grid[7][1] = Knight.new(7, 1, :white) # b1
+    @board.grid[7][6] = Knight.new(7, 6, :white) # g1
+
+    # Black knights
+    @board.grid[0][1] = Knight.new(0, 1, :black) # b8
+    @board.grid[0][6] = Knight.new(0, 6, :black) # g8
+
+    # White bishops
+    @board.grid[7][2] = Bishop.new(7, 2, :white) # c1
+    @board.grid[7][5] = Bishop.new(7, 5, :white) # f1
+
+    # Black bishops
+    @board.grid[0][2] = Bishop.new(0, 2, :black) # c8
+    @board.grid[0][5] = Bishop.new(0, 5, :black) # f8
   end
 
   def switch_player
     @current_player = @current_player == @player1 ? @player2 : @player1
   end
 
-  def victory?
+  def handle_check
+    if in_check?(@current_player.color)
+      puts "#{@current_player.name} is in check!"
+      if checkmate?(@current_player.color)
+        puts "#{@current_player.name} is in checkmate! #{@current_player == @player1 ? 'Black' : 'White'} wins!"
+        return true
+      end
+    end
     false
+  end
+
+  def victory?
+    handle_check
   end
 
   def algebraic_to_coords(pos)

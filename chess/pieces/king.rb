@@ -3,7 +3,7 @@ require_relative 'piece'
 
 class King < Piece
   def symbol
-    color == :white ? '♚' : '♔'
+    color == :white ? '♔' : '♚'
   end
 
   def direction
@@ -16,20 +16,21 @@ class King < Piece
 
   def move(board)
     moves = []
-
-    direction.each do |dr, dc| 
-      new_row = direction + @row 
-      new_col = direction + @col
-
-      if on_board?(new_row, new_col)
-        # same colour isn't on new_row new_col 
-        # then move 
-        #
+  
+    direction.each do |dr, dc| # Loop through all 8 possible king directions
+      new_row = @row + dr       # Step 1: calculate the new position
+      new_col = @col + dc
+  
+      if on_board?(new_row, new_col) # Step 2: make sure we stay on the board
+        target = board[new_row][new_col] # Step 3: look at what's on the target square
+  
+        # Step 4: if the square is empty OR has an enemy piece, it's a legal move
+        if target.nil? || target.color != self.color
+          moves << [new_row, new_col]   # Step 5: add to valid moves
+        end
       end
     end
-
   
-    
-    moves
+    moves # return the list of legal king moves
   end
 end
