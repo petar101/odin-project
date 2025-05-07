@@ -1,8 +1,10 @@
-class Game 
+# frozen_string_literal: true
+
+class Game
   attr_reader :board, :player_x, :player_o
-  
+
   def initialize
-    @board = Array.new(6) { Array.new(7, ' ') }  # 6 rows, 7 columns, initially empty
+    @board = Array.new(6) { Array.new(7, ' ') } # 6 rows, 7 columns, initially empty
     @player_x = 'X'
     @player_o = 'O'
     @current_player = @player_x
@@ -11,13 +13,13 @@ class Game
   def display_board
     puts "\n"
     @board.each do |row|
-      print "| "
+      print '| '
       row.each do |cell|
         print "#{cell} | "
       end
-      puts "\n" + "-" * 29
+      puts "\n#{'-' * 29}"
     end
-    puts "  1   2   3   4   5   6   7  "  # Column numbers for players
+    puts '  1   2   3   4   5   6   7  ' # Column numbers for players
   end
 
   def put_value(column, token)
@@ -28,8 +30,8 @@ class Game
         return true
       end
     end
-    puts "Column is full"
-    false  # Column is full
+    puts 'Column is full'
+    false # Column is full
   end
 
   def switch_player
@@ -75,15 +77,15 @@ class Game
     false
   end
 
-  def start 
+  def start
     puts "Welcome to Connect 4! Player 1 is 'X', Player 2 is 'O'"
-    
+
     loop do
       display_board
       puts "\nPlayer #{@current_player}'s turn"
-      print "Choose a column (1-7): "
-      column = gets.chomp.to_i - 1  # Convert to 0-based index
-      
+      print 'Choose a column (1-7): '
+      column = gets.chomp.to_i - 1 # Convert to 0-based index
+
       if column.between?(0, 6)
         if put_value(column, @current_player)
           if check_victory
@@ -94,7 +96,7 @@ class Game
           switch_player
         end
       else
-        puts "Invalid column! Please choose between 1 and 7"
+        puts 'Invalid column! Please choose between 1 and 7'
       end
     end
   end

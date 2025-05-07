@@ -1,4 +1,6 @@
-require 'set'  
+# frozen_string_literal: true
+
+require 'set'
 
 class KnightTravails
   def initialize(start_position, end_position)
@@ -15,7 +17,7 @@ class KnightTravails
 
   def valid_position?(position)
     x, y = position
-    x.between?(0,7) && y.between?(0,7)
+    x.between?(0, 7) && y.between?(0, 7)
   end
 
   def search_end
@@ -42,7 +44,7 @@ class KnightTravails
       end
     end
 
-    nil  # If no path found (shouldn't happen on an 8x8 board)
+    nil # If no path found (shouldn't happen on an 8x8 board)
   end
 
   def display_path
@@ -51,7 +53,7 @@ class KnightTravails
       puts "\nYou made it in #{path.length - 1} moves! Here's your path:"
       path.each { |position| puts position.inspect }
     else
-      puts "No path found!"
+      puts 'No path found!'
     end
   end
 end
@@ -62,12 +64,10 @@ def get_position(prompt)
     input = gets.chomp
     begin
       position = input.split(',').map(&:to_i)
-      if position.length == 2 && position.all? { |n| n.between?(0, 7) }
-        return position
-      else
-        puts "Please enter valid coordinates between 0 and 7 (e.g., '0,0')"
-      end
-    rescue
+      return position if position.length == 2 && position.all? { |n| n.between?(0, 7) }
+
+      puts "Please enter valid coordinates between 0 and 7 (e.g., '0,0')"
+    rescue StandardError
       puts "Please enter coordinates in the format 'x,y' (e.g., '0,0')"
     end
   end
@@ -76,10 +76,10 @@ end
 # Console interface
 puts "Welcome to Knight's Travails!"
 puts "Enter coordinates between 0 and 7 (e.g., '0,0' for the bottom-left corner)"
-puts "The chessboard is 8x8, with coordinates ranging from [0,0] to [7,7]"
+puts 'The chessboard is 8x8, with coordinates ranging from [0,0] to [7,7]'
 
-start = get_position("Enter starting position (x,y): ")
-finish = get_position("Enter ending position (x,y): ")
+start = get_position('Enter starting position (x,y): ')
+finish = get_position('Enter ending position (x,y): ')
 
 knight = KnightTravails.new(start, finish)
 knight.display_path
